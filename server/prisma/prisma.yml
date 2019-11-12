@@ -1,5 +1,6 @@
 # Specifies the HTTP endpoint of your Prisma API.
-endpoint: ''
+#endpoint: ''
+endpoint: https://us1.prisma.sh/jonathan-3d2547/hackernews-react-apollo-demo-server/dev
 
 # Defines your models, each model is mapped to the database as a table.
 datamodel: datamodel.prisma
