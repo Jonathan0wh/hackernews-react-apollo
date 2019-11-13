@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
-import Link from './Link';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Link, { TLink } from './Link';
+
+const FEED_QUERY = gql`
+  {
+    feed {
+      links {
+        id
+        createdAt
+        url
+        description
+      }
+    }
+  }
+`;
 
 class LinkList extends Component {
   render() {
-    const linksToRender = [
+    const linksToRender: Array<TLink> = [
       {
         id: '1',
         description: 'Prisma turns your database into a GraphQL API 😎',
@@ -17,11 +32,9 @@ class LinkList extends Component {
     ];
 
     return (
-      <div>
-        {linksToRender.map(link => (
-          <Link key={link.id} link={link} />
-        ))}
-      </div>
+      <Query query={FEED_QUERY}>
+        {() => linksToRender.map(link => <Link key={link.id} link={link} />)}
+      </Query>
     );
   }
 }

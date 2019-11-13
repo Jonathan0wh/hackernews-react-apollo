@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 
+export type TLink = {
+  id: string;
+  description: string;
+  url: string;
+};
+
 type LinkProps = {
-  link: {
-    description: string;
-    url: string;
-  };
+  key: string;
+  link: TLink;
 };
 
 class Link extends Component<LinkProps, {}> {
