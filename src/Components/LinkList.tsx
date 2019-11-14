@@ -33,7 +33,7 @@ class LinkList extends Component {
 
     return (
       <Query query={FEED_QUERY}>
-        {() => linksToRender.map(link => <Link key={link.id} link={link} />)}
+        {() => linksToRender.map((link:) => <Link key={link.id} link={link} />)}
       </Query>
     );
   }

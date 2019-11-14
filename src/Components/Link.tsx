@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-export type TLink = {
+export interface ILink {
   id: string;
   description: string;
   url: string;
-};
+}
 
-type LinkProps = {
+interface LinkProps {
   key: string;
-  link: TLink;
-};
+  link: ILink;
+}
 
 class Link extends Component<LinkProps, {}> {
   render() {
