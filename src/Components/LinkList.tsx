@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Link, { TLink } from './Link';
+import Link, { ILink } from './Link';
 
 const FEED_QUERY = gql`
   {
@@ -16,24 +16,39 @@ const FEED_QUERY = gql`
   }
 `;
 
+interface IData {
+  feed: {
+    links: Array<{
+      id: string;
+      createdAt: string;
+      url: string;
+      description: string;
+    }>;
+  };
+}
+
 class LinkList extends Component {
   render() {
-    const linksToRender: Array<TLink> = [
-      {
-        id: '1',
-        description: 'Prisma turns your database into a GraphQL API 😎',
-        url: 'https://www.prismagraphql.com'
-      },
-      {
-        id: '2',
-        description: 'The best GraphQL client',
-        url: 'https://www.apollographql.com/docs/react/'
-      }
-    ];
-
     return (
-      <Query query={FEED_QUERY}>
-        {() => linksToRender.map((link:) => <Link key={link.id} link={link} />)}
+      <Query<IData, {}> query={FEED_QUERY}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Fetching</div>;
+          if (error) return <div>Error</div>;
+
+          let linksToRender;
+          if (data) {
+            linksToRender = data.feed.links;
+          }
+
+          return (
+            <div>
+              {linksToRender &&
+                linksToRender.map((link: ILink) => (
+                  <Link key={link.id} link={link} />
+                ))}
+            </div>
+          );
+        }}
       </Query>
     );
   }
