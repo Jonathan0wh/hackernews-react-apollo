@@ -1,0 +1,65 @@
+diff a/server/src/resolvers/Mutation.js b/server/src/resolvers/Mutation.js	(rejected hunks)
+@@ -1,3 +1,3 @@
+-const bcrypt = require('bcryptjs')
+-const jwt = require('jsonwebtoken')
+-const { APP_SECRET, getUserId } = require('../utils')
++const bcrypt = require('bcryptjs');
++const jwt = require('jsonwebtoken');
++const { APP_SECRET, getUserId } = require('../utils');
+@@ -6 +6 @@ function post(parent, { url, description }, context) {
+-  const userId = getUserId(context)
++  const userId = getUserId(context);
+@@ -15 +15 @@ function post(parent, { url, description }, context) {
+-  })
++  });
+@@ -19,2 +19,2 @@ async function signup(parent, args, context) {
+-  const password = await bcrypt.hash(args.password, 10)
+-  const user = await context.prisma.createUser({ ...args, password })
++  const password = await bcrypt.hash(args.password, 10);
++  const user = await context.prisma.createUser({ ...args, password });
+@@ -22 +22 @@ async function signup(parent, args, context) {
+-  const token = jwt.sign({ userId: user.id }, APP_SECRET)
++  const token = jwt.sign({ userId: user.id }, APP_SECRET);
+@@ -26,2 +26,2 @@ async function signup(parent, args, context) {
+-    user,
+-  }
++    user
++  };
+@@ -31 +31 @@ async function login(parent, args, context) {
+-  const user = await context.prisma.user({ email: args.email })
++  const user = await context.prisma.user({ email: args.email });
+@@ -33 +33 @@ async function login(parent, args, context) {
+-    throw new Error('No such user found')
++    throw new Error('No such user found');
+@@ -36 +36 @@ async function login(parent, args, context) {
+-  const valid = await bcrypt.compare(args.password, user.password)
++  const valid = await bcrypt.compare(args.password, user.password);
+@@ -38 +38 @@ async function login(parent, args, context) {
+-    throw new Error('Invalid password')
++    throw new Error('Invalid password');
+@@ -43,2 +43,2 @@ async function login(parent, args, context) {
+-    user,
+-  }
++    user
++  };
+@@ -48 +48 @@ async function vote(parent, args, context) {
+-  const userId = getUserId(context)
++  const userId = getUserId(context);
+@@ -51,2 +51,2 @@ async function vote(parent, args, context) {
+-    link: { id: args.linkId },
+-  })
++    link: { id: args.linkId }
++  });
+@@ -54 +54 @@ async function vote(parent, args, context) {
+-    throw new Error(`Already voted for link: ${args.linkId}`)
++    throw new Error(`Already voted for link: ${args.linkId}`);
+@@ -59,2 +59,2 @@ async function vote(parent, args, context) {
+-    link: { connect: { id: args.linkId } },
+-  })
++    link: { connect: { id: args.linkId } }
++  });
+@@ -67,2 +67,2 @@ module.exports = {
+-  vote,
+-}
++  vote
++};
