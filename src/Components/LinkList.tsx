@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+
 import Link, { ILink } from './Link';
 
 const FEED_QUERY = gql`
@@ -11,6 +12,16 @@ const FEED_QUERY = gql`
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
@@ -18,12 +29,7 @@ const FEED_QUERY = gql`
 
 interface IData {
   feed: {
-    links: Array<{
-      id: string;
-      createdAt: string;
-      url: string;
-      description: string;
-    }>;
+    links: Array<ILink>;
   };
 }
 
@@ -43,8 +49,8 @@ class LinkList extends Component {
           return (
             <div>
               {linksToRender &&
-                linksToRender.map((link: ILink) => (
-                  <Link key={link.id} link={link} />
+                linksToRender.map((link: ILink, index: number) => (
+                  <Link key={link.id} link={link} index={index} />
                 ))}
             </div>
           );

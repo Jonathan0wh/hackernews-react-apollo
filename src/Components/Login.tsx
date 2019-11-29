@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { RouteComponentProps } from 'react-router-dom';
+
 import { AUTH_TOKEN } from '../constants';
 
 const SIGNUP_MUTATION = gql`
@@ -85,7 +86,7 @@ class Login extends Component<RouteComponentProps, LoginState> {
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
-              <div className="pointer mr2 button" onClick={() => mutation}>
+              <div className="pointer mr2 button" onClick={() => mutation()}>
                 {login ? 'login' : 'create account'}
               </div>
             )}

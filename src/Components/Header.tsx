@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+
 import { AUTH_TOKEN } from '../constants';
 
 class Header extends Component<RouteComponentProps> {
