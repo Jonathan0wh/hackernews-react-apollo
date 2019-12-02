@@ -3,6 +3,8 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { FEED_QUERY } from './LinkList';
+
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
     post(description: $description, url: $url) {
@@ -64,6 +66,16 @@ class CreateLink extends Component<RouteComponentProps, CreateLinkState> {
           mutation={POST_MUTATION}
           variables={{ description, url }}
           onCompleted={() => this.props.history.push('/')}
+          update={(store, { data }) => {
+            const queryData: any = store.readQuery({ query: FEED_QUERY });
+            if (data) {
+              queryData.feed.links.unshift(data.post);
+              store.writeQuery({
+                query: FEED_QUERY,
+                data: queryData
+              });
+            }
+          }}
         >
           {postMutation => (
             <button onClick={() => postMutation()}>Submit</button>

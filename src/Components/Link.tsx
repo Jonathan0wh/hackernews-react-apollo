@@ -36,8 +36,12 @@ export interface ILink {
 }
 
 interface IData {
-  feed: {
-    links: Array<ILink>;
+  vote: {
+    id: string;
+    link: ILink;
+    user: {
+      id: string;
+    };
   };
 }
 
@@ -49,6 +53,7 @@ interface LinkProps {
   key: string;
   index: number;
   link: ILink;
+  updateStoreAfterVote: Function;
 }
 
 class Link extends Component<LinkProps, {}> {
@@ -62,6 +67,14 @@ class Link extends Component<LinkProps, {}> {
             <Mutation<IData, IVariables>
               mutation={VOTE_MUTATION}
               variables={{ linkId: this.props.link.id }}
+              update={(store, { data }) =>
+                data &&
+                this.props.updateStoreAfterVote(
+                  store,
+                  data.vote,
+                  this.props.link.id
+                )
+              }
             >
               {voteMutation => (
                 <div className="ml1 gray f11" onClick={() => voteMutation()}>
