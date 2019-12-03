@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { FEED_QUERY } from './LinkList';
+import { LINKS_PER_PAGE } from '../constants';
 
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
@@ -65,16 +66,25 @@ class CreateLink extends Component<RouteComponentProps, CreateLinkState> {
         <Mutation<IData, IVariables>
           mutation={POST_MUTATION}
           variables={{ description, url }}
-          onCompleted={() => this.props.history.push('/')}
+          onCompleted={() => this.props.history.push('/new/1')}
           update={(store, { data }) => {
-            const queryData: any = store.readQuery({ query: FEED_QUERY });
+            let post;
             if (data) {
-              queryData.feed.links.unshift(data.post);
-              store.writeQuery({
-                query: FEED_QUERY,
-                data: queryData
-              });
+              post = data.post;
             }
+            const first = LINKS_PER_PAGE;
+            const skip = 0;
+            const orderBy = 'createdAt_DESC';
+            const storeData: any = store.readQuery({
+              query: FEED_QUERY,
+              variables: { first, skip, orderBy }
+            });
+            storeData.feed.links.unshift(post);
+            store.writeQuery({
+              query: FEED_QUERY,
+              data: storeData,
+              variables: { first, skip, orderBy }
+            });
           }}
         >
           {postMutation => (
