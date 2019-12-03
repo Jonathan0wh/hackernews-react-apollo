@@ -5,6 +5,7 @@ import Header from 'Components/Header';
 import LinkList from 'Components/LinkList';
 import CreateLink from 'Components/CreateLink';
 import Login from 'Components/Login';
+import Search from 'Components/Search';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={LinkList} />
           <Route exact path="/create" component={CreateLink} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/search" component={Search} />
         </Switch>
       </div>
     </div>

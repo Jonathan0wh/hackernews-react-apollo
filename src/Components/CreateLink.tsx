@@ -36,7 +36,7 @@ interface CreateLinkState {
 }
 
 class CreateLink extends Component<RouteComponentProps, CreateLinkState> {
-  state = {
+  state: CreateLinkState = {
     description: '',
     url: ''
   };

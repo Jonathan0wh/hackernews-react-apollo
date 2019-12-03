@@ -44,7 +44,7 @@ interface LoginState {
 }
 
 class Login extends Component<RouteComponentProps, LoginState> {
-  state = {
+  state: LoginState = {
     login: true, // switch between Login and SignUp
     email: '',
     password: '',

@@ -53,7 +53,7 @@ interface LinkProps {
   key: string;
   index: number;
   link: ILink;
-  updateStoreAfterVote: Function;
+  updateStoreAfterVote?: Function;
 }
 
 class Link extends Component<LinkProps, {}> {
@@ -69,6 +69,7 @@ class Link extends Component<LinkProps, {}> {
               variables={{ linkId: this.props.link.id }}
               update={(store, { data }) =>
                 data &&
+                this.props.updateStoreAfterVote &&
                 this.props.updateStoreAfterVote(
                   store,
                   data.vote,
